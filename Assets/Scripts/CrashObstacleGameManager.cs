@@ -53,8 +53,8 @@ public class CrashObstacleGameManager : GameManager
 
     protected void SpawnObstacle()
     {
-        int randomX = Random.Range(0, raceTrackTileMapSize.x);
-        int randomY = Random.Range(0, raceTrackTileMapSize.y);
+        int randomX = Random.Range(-raceTrackTileMapSize.x, raceTrackTileMapSize.x);
+        int randomY = Random.Range(-raceTrackTileMapSize.y, raceTrackTileMapSize.y);
         Vector3Int raceTrackTilePosition = new Vector3Int(randomX, randomY, 0);
         TileBase raceTrackTile = raceTrackTileMap.GetTile(raceTrackTilePosition);
 
