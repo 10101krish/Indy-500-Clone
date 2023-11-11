@@ -3,6 +3,7 @@ using UnityEngine;
 public class FinishLineGameManager : GameManager
 {
     private bool firstLapStarted = false;
+    public AudioClip finishLineCrossingAudioClip;
 
     protected override void Start()
     {
@@ -32,6 +33,7 @@ public class FinishLineGameManager : GameManager
             FinishLineCar finishLineCar = carGameObject.AddComponent<FinishLineCar>();
             finishLineCar.SetCarNumber(carIndex + 1);
             finishLineCar.SetFinishLineGameManager(this);
+            finishLineCar.SetFinishLineCrossingAudioClip(finishLineCrossingAudioClip);
         }
         DisableOtherCarScoreTexts(carIndex);
     }

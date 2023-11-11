@@ -242,6 +242,7 @@ MonoBehaviour:
   gameWinText: {fileID: 4525297506541731050}
   obstaclePrefab: {fileID: 7280167263221997796, guid: 3e6ca18fbd8956c46b11e72b019179e5, type: 3}
   raceTrackTileMap: {fileID: 0}
+  obstacleCrashedAudioClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
 --- !u!1 &1751026517629346396
 GameObject:
   m_ObjectHideFlags: 0

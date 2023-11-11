@@ -5,6 +5,7 @@ public class CrashObstacleGameManager : GameManager
 {
     public GameObject obstaclePrefab;
     public Tilemap raceTrackTileMap;
+    public AudioClip obstacleCrashedAudioClip;
 
     protected bool firstObstacleCrashed;
     protected bool obstacleSpawned;
@@ -42,6 +43,7 @@ public class CrashObstacleGameManager : GameManager
             CrashObstacleCar crashObstacleCar = carGameObject.AddComponent<CrashObstacleCar>();
             crashObstacleCar.SetCarNumber(carIndex + 1);
             crashObstacleCar.SetCrashObstacleGameManager(this);
+            crashObstacleCar.SetObstacleCrashedAudioClip(obstacleCrashedAudioClip);
         }
         DisableOtherCarScoreTexts(carIndex);
     }

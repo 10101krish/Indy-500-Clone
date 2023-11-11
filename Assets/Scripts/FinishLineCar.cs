@@ -3,11 +3,17 @@ using UnityEngine;
 public class FinishLineCar : MonoBehaviour
 {
     private FinishLineGameManager finishLineGameManager;
-
     private float previousFinishLineEnteryDirection;
     private float newFinishLineEnteryDirection;
 
+    private AudioSource audioSource;
+    
     private int carNumber;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void Start()
     {
@@ -17,6 +23,11 @@ public class FinishLineCar : MonoBehaviour
     public void SetFinishLineGameManager(FinishLineGameManager finishLineGameManager)
     {
         this.finishLineGameManager = finishLineGameManager;
+    }
+
+    public void SetFinishLineCrossingAudioClip(AudioClip finishLineCrossingAudioClip)
+    {
+        audioSource.clip = finishLineCrossingAudioClip;
     }
 
     public void SetCarNumber(int carNumber)
@@ -34,7 +45,10 @@ public class FinishLineCar : MonoBehaviour
         if (other.gameObject.layer.Equals(LayerMask.NameToLayer("FinishLine")))
         {
             if (CheckEnteryContactWithFinishLine(other))
+            {
                 finishLineGameManager.LapFinished(carNumber);
+                audioSource.Play();
+            }
         }
     }
 
