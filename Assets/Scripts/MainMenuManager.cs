@@ -13,7 +13,7 @@ public class MainMenuManager : MonoBehaviour
     public Button levelSelectLeftButton;
     public Button levelSelectRightButton;
 
-    public static int currentPlayerCount;
+    public static int currentPlayerCount = 1;
     public int maxNumberofPlayers = 2;
     public int minNumberofPlayers = 1;
     public Button playersSelectLeftButton;
