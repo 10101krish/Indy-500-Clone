@@ -4,26 +4,33 @@ using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public Text levelSelectText;
-    public Text playerCountText;
+    public Text modeSelectText;
+    public Button modeSelectLeftButton;
+    public Button modeSelectRightButton;
+    public string[] modeNames = { "Max Laps", "Crash Obstacles" };
+    public int[] modeScenes = { 3, 3 };
+    private int currentModeIndex;
 
-    private int currentLevelIndex;
-    public int maxNumberofLevels = 3;
-    public int minNumberofLevels = 1;
+    public Text levelSelectText;
     public Button levelSelectLeftButton;
     public Button levelSelectRightButton;
+    private int currentLevelPrefix = 0;
+    private int currentLevelIndex;
 
+    public Text playerCountText;
+    public Button playersSelectLeftButton;
+    public Button playersSelectRightButton;
     public static int currentPlayerCount = 1;
     public int maxNumberofPlayers = 2;
     public int minNumberofPlayers = 1;
-    public Button playersSelectLeftButton;
-    public Button playersSelectRightButton;
 
     private void Start()
     {
-        Time.timeScale = 1;
+        currentModeIndex = 1;
         currentLevelIndex = 1;
         currentPlayerCount = 1;
+        currentLevelPrefix = 0;
+        UpdateModeDisplay();
         UpdateLevelDisplay();
         UpdatePlayersDisplay();
     }
@@ -34,13 +41,65 @@ public class MainMenuManager : MonoBehaviour
             Application.Quit();
     }
 
-    public void IncreaseScreenIndex()
+    public void IncreaseModeIndex()
+    {
+        currentLevelPrefix += modeScenes[currentModeIndex - 1];
+        currentModeIndex++;
+        UpdateModeDisplay();
+        ResetLevelDisplay();
+    }
+
+    public void DecreaseModeIndex()
+    {
+        currentLevelPrefix -= modeScenes[currentModeIndex - 2];
+        currentModeIndex--;
+        UpdateModeDisplay();
+        ResetLevelDisplay();
+    }
+
+    private void ResetLevelDisplay()
+    {
+        currentLevelIndex = 1;
+        UpdateLevelDisplay();
+    }
+
+    private void UpdateModeDisplay()
+    {
+        UpdateModeSelectText();
+        UpdateModeSelectButtons();
+    }
+
+    private void UpdateModeSelectText()
+    {
+        modeSelectText.text = $"{modeNames[currentModeIndex - 1]}";
+    }
+
+    private void UpdateModeSelectButtons()
+    {
+        if (currentModeIndex >= modeScenes.Length)
+        {
+            modeSelectLeftButton.gameObject.SetActive(true);
+            modeSelectRightButton.gameObject.SetActive(false);
+        }
+        else if (currentModeIndex <= 1)
+        {
+            modeSelectLeftButton.gameObject.SetActive(false);
+            modeSelectRightButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            modeSelectLeftButton.gameObject.SetActive(true);
+            modeSelectRightButton.gameObject.SetActive(true);
+        }
+    }
+
+    public void IncreaseLevelIndex()
     {
         currentLevelIndex++;
         UpdateLevelDisplay();
     }
 
-    public void DecreaseScreenIndex()
+    public void DecreaseLevelIndex()
     {
         currentLevelIndex--;
         UpdateLevelDisplay();
@@ -54,17 +113,17 @@ public class MainMenuManager : MonoBehaviour
 
     private void UpdateLevelSelectText()
     {
-        levelSelectText.text = $"Level {currentLevelIndex}";
+        levelSelectText.text = $"{currentLevelIndex}";
     }
 
     private void UpdateLevelSelectButtons()
     {
-        if (currentLevelIndex >= maxNumberofLevels)
+        if (currentLevelIndex >= modeScenes[currentModeIndex - 1])
         {
-            levelSelectRightButton.gameObject.SetActive(false);
             levelSelectLeftButton.gameObject.SetActive(true);
+            levelSelectRightButton.gameObject.SetActive(false);
         }
-        else if (currentLevelIndex <= minNumberofLevels)
+        else if (currentLevelIndex <= 1)
         {
             levelSelectLeftButton.gameObject.SetActive(false);
             levelSelectRightButton.gameObject.SetActive(true);
@@ -103,8 +162,8 @@ public class MainMenuManager : MonoBehaviour
     {
         if (currentPlayerCount >= maxNumberofPlayers)
         {
-            playersSelectRightButton.gameObject.SetActive(false);
             playersSelectLeftButton.gameObject.SetActive(true);
+            playersSelectRightButton.gameObject.SetActive(false);
         }
         else if (currentPlayerCount <= minNumberofPlayers)
         {
@@ -120,7 +179,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void LoadSelectedScene()
     {
-        SceneManager.LoadScene(currentLevelIndex);
+        SceneManager.LoadScene(currentLevelPrefix + currentLevelIndex);
     }
 
 }
