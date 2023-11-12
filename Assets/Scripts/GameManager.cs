@@ -21,6 +21,13 @@ public class GameManager : MonoBehaviour
     public Canvas gamePausedCanvas;
     public Text gameWinText;
 
+    private AudioSource audioSource;
+
+    protected virtual void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     protected virtual void Start()
     {
         Time.timeScale = 1;
@@ -70,5 +77,10 @@ public class GameManager : MonoBehaviour
     {
         for (; carIndex < carScoreTexts.Length; carIndex++)
             carScoreTexts[carIndex].gameObject.SetActive(false);
+    }
+
+    protected void PlayGameOverSound()
+    {
+        audioSource.Play();
     }
 }

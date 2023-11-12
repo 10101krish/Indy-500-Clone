@@ -12,6 +12,11 @@ public class CrashObstacleGameManager : GameManager
 
     Vector3Int raceTrackTileMapSize;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -25,7 +30,7 @@ public class CrashObstacleGameManager : GameManager
     protected override void Update()
     {
         base.Update();
-        if (firstObstacleCrashed)
+        if (firstObstacleCrashed && !gamePaused)
         {
             timeRemaining -= Time.deltaTime;
             UpdateTimeRemainingText();
@@ -98,6 +103,7 @@ public class CrashObstacleGameManager : GameManager
 
     protected void PauseGame()
     {
+        PlayGameOverSound();
         gamePaused = true;
         Time.timeScale = 0;
 

@@ -5,6 +5,11 @@ public class FinishLineGameManager : GameManager
     private bool firstLapStarted = false;
     public AudioClip finishLineCrossingAudioClip;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -15,7 +20,7 @@ public class FinishLineGameManager : GameManager
     protected override void Update()
     {
         base.Update();
-        if (firstLapStarted)
+        if (firstLapStarted && !gamePaused)
         {
             timeRemaining -= Time.deltaTime;
             UpdateTimeRemainingText();
@@ -67,6 +72,7 @@ public class FinishLineGameManager : GameManager
 
     protected void PauseGame()
     {
+        PlayGameOverSound();
         gamePaused = true;
         Time.timeScale = 0;
 
