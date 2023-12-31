@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class FinishLineGameManager : GameManager
 {
-    private bool firstLapStarted = false;
     public AudioClip finishLineCrossingAudioClip;
 
     protected override void Awake()
@@ -13,14 +12,13 @@ public class FinishLineGameManager : GameManager
     protected override void Start()
     {
         base.Start();
-        firstLapStarted = false;
         InstantiateCars();
     }
 
     protected override void Update()
     {
         base.Update();
-        if (firstLapStarted && !gamePaused)
+        if (timerWorking && !gamePaused)
         {
             timeRemaining -= Time.deltaTime;
             UpdateTimeRemainingText();
@@ -43,6 +41,15 @@ public class FinishLineGameManager : GameManager
         DisableOtherCarScoreTexts(carIndex);
     }
 
+    public void BeginGame()
+    {
+        if (!timerWorking)
+        {
+            BeginTimer();
+            BeginLapCount();
+        }
+    }
+
     private void BeginLapCount()
     {
         int carIndex = 0;
@@ -57,17 +64,19 @@ public class FinishLineGameManager : GameManager
     public void LapFinished(int playerNumber)
     {
         int carIndex = playerNumber - 1;
-        if (!firstLapStarted)
-        {
-            firstLapStarted = true;
-            BeginTimer();
-            BeginLapCount();
-        }
-        else
-        {
-            carScores[carIndex]++;
-            UpdateCarScoreText(carIndex);
-        }
+        // if (!firstLapStarted)
+        // {
+        //     firstLapStarted = true;
+        //     BeginTimer();
+        //     BeginLapCount();
+        // }
+        // else
+        // {
+        //     carScores[carIndex]++;
+        //     UpdateCarScoreText(carIndex);
+        // }
+        carScores[carIndex]++;
+        UpdateCarScoreText(carIndex);
     }
 
     protected void PauseGame()

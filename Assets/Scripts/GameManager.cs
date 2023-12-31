@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public Text timeRemainingText;
     protected float timeRemaining;
     public float levelTime = 60f;
+    protected bool timerWorking = false;
 
     protected bool gamePaused;
     public Canvas gamePausedCanvas;
@@ -53,6 +54,7 @@ public class GameManager : MonoBehaviour
 
     protected void BeginTimer()
     {
+        timerWorking = true;
         timeRemaining = levelTime;
         UpdateTimeRemainingText();
     }

@@ -5,9 +5,10 @@ public class FinishLineCar : MonoBehaviour
     private FinishLineGameManager finishLineGameManager;
     private float previousFinishLineEnteryDirection;
     private float newFinishLineEnteryDirection;
+    private bool firstLapStarted = false;
 
     private AudioSource audioSource;
-    
+
     private int carNumber;
 
     private void Awake()
@@ -17,6 +18,7 @@ public class FinishLineCar : MonoBehaviour
 
     private void Start()
     {
+        firstLapStarted = false;
         ResetCar();
     }
 
@@ -46,8 +48,16 @@ public class FinishLineCar : MonoBehaviour
         {
             if (CheckEnteryContactWithFinishLine(other))
             {
-                finishLineGameManager.LapFinished(carNumber);
-                audioSource.Play();
+                if (!firstLapStarted)
+                {
+                    finishLineGameManager.BeginGame();
+                    firstLapStarted = true;
+                }
+                else
+                {
+                    finishLineGameManager.LapFinished(carNumber);
+                    audioSource.Play();
+                }
             }
         }
     }

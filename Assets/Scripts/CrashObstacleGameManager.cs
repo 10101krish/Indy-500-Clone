@@ -20,7 +20,6 @@ public class CrashObstacleGameManager : GameManager
     protected override void Start()
     {
         base.Start();
-        firstObstacleCrashed = false;
         obstacleSpawned = false;
         InstantiateCars();
         GatherTileMapAttributes();
@@ -30,7 +29,7 @@ public class CrashObstacleGameManager : GameManager
     protected override void Update()
     {
         base.Update();
-        if (firstObstacleCrashed && !gamePaused)
+        if (timerWorking && !gamePaused)
         {
             timeRemaining -= Time.deltaTime;
             UpdateTimeRemainingText();
@@ -78,17 +77,21 @@ public class CrashObstacleGameManager : GameManager
     public void ObstacleHit(int carNumber)
     {
         int carIndex = carNumber - 1;
-        if (!firstObstacleCrashed)
-        {
-            firstObstacleCrashed = true;
-            BeginTimer();
-            BeginScoreCount();
-        }
+        
+        if (!timerWorking)
+            BeginGame();
+
         carScores[carIndex]++;
         UpdateCarScoreText(carIndex);
 
         obstacleSpawned = false;
         SpawnObstacle();
+    }
+
+    public void BeginGame()
+    {
+        BeginTimer();
+        BeginScoreCount();
     }
 
     private void BeginScoreCount()
